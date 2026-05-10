@@ -22,6 +22,13 @@ python main.py
 uvicorn app:app --host 0.0.0.0 --port 8080
 ```
 
+## Docker
+
+```bash
+docker build -t wine-quality-fastapi .
+docker run -p 8080:8080 wine-quality-fastapi
+```
+
 ## MLflow
 
 ```bash
@@ -30,3 +37,6 @@ mlflow ui
 
 Set tracking credentials through environment variables when using a remote MLflow server.
 
+## Citation
+
+This project follows the structure of Krish Naik's guided end-to-end MLflow project and adapts the application layer to FastAPI.
