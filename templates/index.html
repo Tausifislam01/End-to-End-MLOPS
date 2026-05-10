@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wine Quality Prediction</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: #1f2937;
+            background: #f5f7fb;
+        }
+
+        main {
+            width: min(980px, calc(100% - 32px));
+            margin: 32px auto;
+        }
+
+        header {
+            margin-bottom: 24px;
+        }
+
+        h1 {
+            margin: 0 0 8px;
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        p {
+            margin: 0;
+            color: #4b5563;
+        }
+
+        form {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+            padding: 24px;
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+        }
+
+        label {
+            display: grid;
+            gap: 6px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        input {
+            width: 100%;
+            min-height: 42px;
+            padding: 10px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font: inherit;
+        }
+
+        button {
+            min-height: 44px;
+            padding: 0 18px;
+            border: 0;
+            border-radius: 6px;
+            background: #2563eb;
+            color: #ffffff;
+            font: inherit;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            grid-column: 1 / -1;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 18px;
+            background: #ecfdf5;
+            border: 1px solid #a7f3d0;
+            border-radius: 8px;
+            font-weight: 700;
+        }
+
+        @media (max-width: 700px) {
+            form {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 26px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <header>
+            <h1>Wine Quality Prediction</h1>
+            <p>Enter wine chemistry values to estimate quality.</p>
+        </header>
+
+        <form method="post" action="/predict">
+            <label>Fixed acidity<input name="fixed_acidity" type="number" step="any" required></label>
+            <label>Volatile acidity<input name="volatile_acidity" type="number" step="any" required></label>
+            <label>Citric acid<input name="citric_acid" type="number" step="any" required></label>
+            <label>Residual sugar<input name="residual_sugar" type="number" step="any" required></label>
+            <label>Chlorides<input name="chlorides" type="number" step="any" required></label>
+            <label>Free sulfur dioxide<input name="free_sulfur_dioxide" type="number" step="any" required></label>
+            <label>Total sulfur dioxide<input name="total_sulfur_dioxide" type="number" step="any" required></label>
+            <label>Density<input name="density" type="number" step="any" required></label>
+            <label>pH<input name="pH" type="number" step="any" required></label>
+            <label>Sulphates<input name="sulphates" type="number" step="any" required></label>
+            <label>Alcohol<input name="alcohol" type="number" step="any" required></label>
+            <div class="actions">
+                <button type="submit">Predict</button>
+            </div>
+        </form>
+
+        {% if prediction is defined %}
+        <div class="result">Predicted wine quality: {{ prediction }}</div>
+        {% endif %}
+    </main>
+</body>
+</html>
+
