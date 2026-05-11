@@ -14,7 +14,7 @@ templates = Jinja2Templates(directory="templates")
 
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
+    return templates.TemplateResponse(request, "index.html")
 
 
 @app.get("/train")
@@ -55,7 +55,7 @@ async def predict(
     }
     predictor = PredictionPipeline()
     prediction = predictor.predict(data)[0]
-    return templates.TemplateResponse("index.html", {"request": request, "prediction": round(float(prediction), 3)})
+    return templates.TemplateResponse(request, "index.html", {"prediction": round(float(prediction), 3)})
 
 
 @app.post("/api/predict")
@@ -63,4 +63,3 @@ async def api_predict(payload: dict):
     predictor = PredictionPipeline()
     prediction = predictor.predict(payload)[0]
     return {"prediction": float(prediction)}
-
