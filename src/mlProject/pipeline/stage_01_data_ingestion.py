@@ -1,5 +1,5 @@
-from end_to_end_mlops.components.data_ingestion import DataIngestion
-from end_to_end_mlops.config.configuration import ConfigurationManager
+from mlProject.components.data_ingestion import DataIngestion
+from mlProject.config.configuration import ConfigurationManager
 
 
 STAGE_NAME = "Data Ingestion stage"

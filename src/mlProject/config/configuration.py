@@ -1,15 +1,15 @@
 import os
 from pathlib import Path
 
-from end_to_end_mlops.constants import CONFIG_FILE_PATH, PARAMS_FILE_PATH, SCHEMA_FILE_PATH
-from end_to_end_mlops.entity.config_entity import (
+from mlProject.constants import CONFIG_FILE_PATH, PARAMS_FILE_PATH, SCHEMA_FILE_PATH
+from mlProject.entity.config_entity import (
     DataIngestionConfig,
     DataTransformationConfig,
     DataValidationConfig,
     ModelEvaluationConfig,
     ModelTrainerConfig,
 )
-from end_to_end_mlops.utils.common import create_directories, read_yaml
+from mlProject.utils.common import create_directories, read_yaml
 
 
 class ConfigurationManager:

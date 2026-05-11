@@ -2,7 +2,7 @@ import urllib.request
 import zipfile
 from pathlib import Path
 
-from end_to_end_mlops.entity.config_entity import DataIngestionConfig
+from mlProject.entity.config_entity import DataIngestionConfig
 
 
 class DataIngestion:

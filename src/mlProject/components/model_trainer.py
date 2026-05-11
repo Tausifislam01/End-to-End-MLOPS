@@ -2,7 +2,7 @@ import joblib
 import pandas as pd
 from sklearn.linear_model import ElasticNet
 
-from end_to_end_mlops.entity.config_entity import ModelTrainerConfig
+from mlProject.entity.config_entity import ModelTrainerConfig
 
 
 class ModelTrainer:

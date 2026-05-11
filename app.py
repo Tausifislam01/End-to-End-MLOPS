@@ -5,7 +5,7 @@ from fastapi import FastAPI, Form, Request
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 
-from end_to_end_mlops.pipeline.prediction import PredictionPipeline
+from mlProject.pipeline.prediction import PredictionPipeline
 
 
 app = FastAPI(title="Wine Quality Prediction")

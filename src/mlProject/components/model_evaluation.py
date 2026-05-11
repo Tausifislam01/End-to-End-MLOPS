@@ -9,8 +9,8 @@ import pandas as pd
 from mlflow.models import infer_signature
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
-from end_to_end_mlops.entity.config_entity import ModelEvaluationConfig
-from end_to_end_mlops.utils.common import save_json
+from mlProject.entity.config_entity import ModelEvaluationConfig
+from mlProject.utils.common import save_json
 
 
 class ModelEvaluation:

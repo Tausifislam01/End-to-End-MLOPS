@@ -1,7 +1,7 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
-from end_to_end_mlops.entity.config_entity import DataTransformationConfig
+from mlProject.entity.config_entity import DataTransformationConfig
 
 
 class DataTransformation:

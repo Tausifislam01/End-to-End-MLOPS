@@ -1,5 +1,5 @@
-from end_to_end_mlops.components.model_trainer import ModelTrainer
-from end_to_end_mlops.config.configuration import ConfigurationManager
+from mlProject.components.model_trainer import ModelTrainer
+from mlProject.config.configuration import ConfigurationManager
 
 
 STAGE_NAME = "Model Trainer stage"

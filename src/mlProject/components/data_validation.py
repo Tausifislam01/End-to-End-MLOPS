@@ -1,6 +1,6 @@
 import pandas as pd
 
-from end_to_end_mlops.entity.config_entity import DataValidationConfig
+from mlProject.entity.config_entity import DataValidationConfig
 
 
 class DataValidation:

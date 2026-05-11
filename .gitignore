@@ -12,8 +12,9 @@ env/
 build/
 dist/
 *.egg-info/
+src/*.egg-info/
+*.log
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
 .DS_Store
-
