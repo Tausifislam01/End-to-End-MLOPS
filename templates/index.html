@@ -5,130 +5,526 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wine Quality Prediction</title>
     <style>
+        :root {
+            color-scheme: light;
+            --bg: #f6f3ee;
+            --surface: #ffffff;
+            --surface-soft: #f9fafb;
+            --text: #172033;
+            --muted: #647086;
+            --line: #dfe4ec;
+            --accent: #0f766e;
+            --accent-dark: #115e59;
+            --accent-soft: #d9f3ee;
+            --wine: #8f1d46;
+            --gold: #c88422;
+            --shadow: 0 22px 70px rgba(23, 32, 51, 0.12);
+        }
+
         * {
             box-sizing: border-box;
         }
 
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
-            color: #1f2937;
-            background: #f5f7fb;
+            min-height: 100vh;
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            color: var(--text);
+            background:
+                linear-gradient(135deg, rgba(143, 29, 70, 0.12), transparent 34%),
+                linear-gradient(315deg, rgba(15, 118, 110, 0.12), transparent 36%),
+                var(--bg);
         }
 
         main {
-            width: min(980px, calc(100% - 32px));
-            margin: 32px auto;
+            width: min(1180px, calc(100% - 32px));
+            margin: 0 auto;
+            padding: 40px 0;
         }
 
-        header {
-            margin-bottom: 24px;
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 28px;
         }
 
-        h1 {
-            margin: 0 0 8px;
-            font-size: 32px;
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 800;
+            letter-spacing: 0;
+        }
+
+        .brand-mark {
+            display: grid;
+            width: 42px;
+            height: 42px;
+            place-items: center;
+            border-radius: 8px;
+            background: var(--wine);
+            color: #fff;
+            font-size: 22px;
+            line-height: 1;
+            box-shadow: 0 12px 30px rgba(143, 29, 70, 0.28);
+        }
+
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            min-height: 36px;
+            padding: 0 12px;
+            border: 1px solid rgba(15, 118, 110, 0.18);
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.72);
+            color: var(--accent-dark);
+            font-size: 14px;
             font-weight: 700;
         }
 
-        p {
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+            gap: 24px;
+            align-items: stretch;
+        }
+
+        .intro,
+        .result-panel,
+        form {
+            border: 1px solid rgba(223, 228, 236, 0.92);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: var(--shadow);
+        }
+
+        .intro {
+            display: grid;
+            align-content: center;
+            min-height: 310px;
+            padding: 34px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .intro::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(120deg, rgba(143, 29, 70, 0.12), transparent 48%),
+                linear-gradient(0deg, rgba(200, 132, 34, 0.14), transparent 44%);
+            pointer-events: none;
+        }
+
+        .intro > * {
+            position: relative;
+        }
+
+        .eyebrow {
+            width: fit-content;
+            margin: 0 0 14px;
+            padding: 7px 10px;
+            border-radius: 999px;
+            background: rgba(143, 29, 70, 0.1);
+            color: var(--wine);
+            font-size: 13px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        h1 {
+            max-width: 720px;
             margin: 0;
-            color: #4b5563;
+            font-size: clamp(34px, 5vw, 58px);
+            line-height: 1.02;
+            letter-spacing: 0;
+        }
+
+        .intro-text {
+            max-width: 650px;
+            margin: 18px 0 0;
+            color: var(--muted);
+            font-size: 17px;
+            line-height: 1.65;
+        }
+
+        .metrics-strip {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+            margin-top: 28px;
+        }
+
+        .metric {
+            min-height: 84px;
+            padding: 14px;
+            border: 1px solid rgba(223, 228, 236, 0.88);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.72);
+        }
+
+        .metric strong {
+            display: block;
+            font-size: 22px;
+        }
+
+        .metric span {
+            display: block;
+            margin-top: 4px;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.35;
+        }
+
+        .result-panel {
+            display: grid;
+            align-content: center;
+            gap: 18px;
+            min-height: 310px;
+            padding: 28px;
+            background:
+                linear-gradient(145deg, rgba(15, 118, 110, 0.12), transparent 55%),
+                var(--surface);
+        }
+
+        .panel-label {
+            color: var(--muted);
+            font-size: 13px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .score {
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+        }
+
+        .score-value {
+            font-size: clamp(54px, 9vw, 86px);
+            line-height: 0.95;
+            font-weight: 850;
+            color: var(--accent-dark);
+        }
+
+        .score-unit {
+            color: var(--muted);
+            font-size: 16px;
+            font-weight: 800;
+        }
+
+        .empty-state {
+            display: grid;
+            gap: 8px;
+            padding: 22px;
+            border: 1px dashed rgba(100, 112, 134, 0.36);
+            border-radius: 8px;
+            background: rgba(249, 250, 251, 0.74);
+            color: var(--muted);
+            line-height: 1.55;
+        }
+
+        .empty-state strong {
+            color: var(--text);
+            font-size: 18px;
+        }
+
+        .form-shell {
+            margin-top: 24px;
         }
 
         form {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
+            padding: 28px;
+        }
+
+        .form-header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
             gap: 16px;
-            padding: 24px;
-            background: #ffffff;
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
+            margin-bottom: 22px;
+            padding-bottom: 18px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .form-header h2 {
+            margin: 0;
+            font-size: 24px;
+            letter-spacing: 0;
+        }
+
+        .form-header p {
+            margin: 6px 0 0;
+            color: var(--muted);
+            line-height: 1.5;
+        }
+
+        .field-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
         }
 
         label {
             display: grid;
-            gap: 6px;
+            gap: 7px;
+            min-width: 0;
+            color: #293449;
             font-size: 14px;
+            font-weight: 750;
+        }
+
+        .hint {
+            color: var(--muted);
+            font-size: 12px;
             font-weight: 600;
         }
 
         input {
             width: 100%;
-            min-height: 42px;
-            padding: 10px 12px;
+            min-height: 46px;
+            padding: 11px 12px;
             border: 1px solid #cbd5e1;
-            border-radius: 6px;
+            border-radius: 8px;
+            outline: 0;
+            background: var(--surface-soft);
+            color: var(--text);
             font: inherit;
+            transition: border-color 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
         }
 
-        button {
-            min-height: 44px;
-            padding: 0 18px;
-            border: 0;
-            border-radius: 6px;
-            background: #2563eb;
-            color: #ffffff;
-            font: inherit;
-            font-weight: 700;
-            cursor: pointer;
+        input:focus {
+            border-color: var(--accent);
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(15, 118, 110, 0.12);
         }
 
         .actions {
             display: flex;
             align-items: center;
-            gap: 12px;
-            grid-column: 1 / -1;
+            justify-content: space-between;
+            gap: 16px;
+            margin-top: 22px;
+            padding-top: 20px;
+            border-top: 1px solid var(--line);
         }
 
-        .result {
-            margin-top: 20px;
-            padding: 18px;
-            background: #ecfdf5;
-            border: 1px solid #a7f3d0;
+        .actions-note {
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.45;
+        }
+
+        button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 170px;
+            min-height: 48px;
+            padding: 0 22px;
+            border: 0;
             border-radius: 8px;
-            font-weight: 700;
+            background: var(--accent);
+            color: #ffffff;
+            font: inherit;
+            font-weight: 850;
+            cursor: pointer;
+            box-shadow: 0 14px 28px rgba(15, 118, 110, 0.25);
+            transition: transform 0.16s ease, background 0.16s ease, box-shadow 0.16s ease;
         }
 
-        @media (max-width: 700px) {
-            form {
+        button:hover {
+            background: var(--accent-dark);
+            box-shadow: 0 16px 34px rgba(15, 118, 110, 0.3);
+            transform: translateY(-1px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        @media (max-width: 920px) {
+            main {
+                padding: 24px 0;
+            }
+
+            .hero,
+            .field-grid {
                 grid-template-columns: 1fr;
             }
 
-            h1 {
-                font-size: 26px;
+            .intro,
+            .result-panel {
+                min-height: auto;
+            }
+
+            .metrics-strip {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 620px) {
+            main {
+                width: min(100% - 20px, 1180px);
+            }
+
+            .topbar,
+            .form-header,
+            .actions {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            .intro,
+            .result-panel,
+            form {
+                padding: 20px;
+            }
+
+            button {
+                width: 100%;
             }
         }
     </style>
 </head>
 <body>
     <main>
-        <header>
-            <h1>Wine Quality Prediction</h1>
-            <p>Enter wine chemistry values to estimate quality.</p>
-        </header>
-
-        <form method="post" action="/predict">
-            <label>Fixed acidity<input name="fixed_acidity" type="number" step="any" required></label>
-            <label>Volatile acidity<input name="volatile_acidity" type="number" step="any" required></label>
-            <label>Citric acid<input name="citric_acid" type="number" step="any" required></label>
-            <label>Residual sugar<input name="residual_sugar" type="number" step="any" required></label>
-            <label>Chlorides<input name="chlorides" type="number" step="any" required></label>
-            <label>Free sulfur dioxide<input name="free_sulfur_dioxide" type="number" step="any" required></label>
-            <label>Total sulfur dioxide<input name="total_sulfur_dioxide" type="number" step="any" required></label>
-            <label>Density<input name="density" type="number" step="any" required></label>
-            <label>pH<input name="pH" type="number" step="any" required></label>
-            <label>Sulphates<input name="sulphates" type="number" step="any" required></label>
-            <label>Alcohol<input name="alcohol" type="number" step="any" required></label>
-            <div class="actions">
-                <button type="submit">Predict</button>
+        <div class="topbar">
+            <div class="brand">
+                <span class="brand-mark">W</span>
+                <span>Wine Quality ML</span>
             </div>
-        </form>
+            <div class="status-pill"><span class="status-dot"></span>FastAPI model service</div>
+        </div>
 
-        {% if prediction is defined %}
-        <div class="result">Predicted wine quality: {{ prediction }}</div>
-        {% endif %}
+        <section class="hero">
+            <header class="intro">
+                <p class="eyebrow">ElasticNet Regression</p>
+                <h1>Predict wine quality from chemistry values.</h1>
+                <p class="intro-text">
+                    Enter the measured properties of a red wine sample and the trained model
+                    will estimate its quality score.
+                </p>
+                <div class="metrics-strip" aria-label="Project summary">
+                    <div class="metric">
+                        <strong>11</strong>
+                        <span>input features</span>
+                    </div>
+                    <div class="metric">
+                        <strong>MLflow</strong>
+                        <span>tracked evaluation</span>
+                    </div>
+                    <div class="metric">
+                        <strong>API</strong>
+                        <span>form and JSON routes</span>
+                    </div>
+                </div>
+            </header>
+
+            <aside class="result-panel" aria-live="polite">
+                <div>
+                    <div class="panel-label">Prediction</div>
+                    {% if prediction is defined %}
+                    <div class="score">
+                        <span class="score-value">{{ prediction }}</span>
+                        <span class="score-unit">quality score</span>
+                    </div>
+                    {% else %}
+                    <div class="empty-state">
+                        <strong>No prediction yet</strong>
+                        <span>Submit the wine chemistry values to generate a quality estimate.</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </aside>
+        </section>
+
+        <section class="form-shell">
+            <form method="post" action="/predict">
+                <div class="form-header">
+                    <div>
+                        <h2>Sample Measurements</h2>
+                        <p>Use numeric values from a wine lab sample.</p>
+                    </div>
+                </div>
+
+                <div class="field-grid">
+                    <label>
+                        Fixed acidity
+                        <input name="fixed_acidity" type="number" step="any" required>
+                        <span class="hint">Non-volatile acids</span>
+                    </label>
+                    <label>
+                        Volatile acidity
+                        <input name="volatile_acidity" type="number" step="any" required>
+                        <span class="hint">Acetic acid level</span>
+                    </label>
+                    <label>
+                        Citric acid
+                        <input name="citric_acid" type="number" step="any" required>
+                        <span class="hint">Freshness indicator</span>
+                    </label>
+                    <label>
+                        Residual sugar
+                        <input name="residual_sugar" type="number" step="any" required>
+                        <span class="hint">Sugar after fermentation</span>
+                    </label>
+                    <label>
+                        Chlorides
+                        <input name="chlorides" type="number" step="any" required>
+                        <span class="hint">Salt concentration</span>
+                    </label>
+                    <label>
+                        Free sulfur dioxide
+                        <input name="free_sulfur_dioxide" type="number" step="any" required>
+                        <span class="hint">Free SO2 amount</span>
+                    </label>
+                    <label>
+                        Total sulfur dioxide
+                        <input name="total_sulfur_dioxide" type="number" step="any" required>
+                        <span class="hint">Total SO2 amount</span>
+                    </label>
+                    <label>
+                        Density
+                        <input name="density" type="number" step="any" required>
+                        <span class="hint">Wine density</span>
+                    </label>
+                    <label>
+                        pH
+                        <input name="pH" type="number" step="any" required>
+                        <span class="hint">Acidity scale</span>
+                    </label>
+                    <label>
+                        Sulphates
+                        <input name="sulphates" type="number" step="any" required>
+                        <span class="hint">Sulfur additive level</span>
+                    </label>
+                    <label>
+                        Alcohol
+                        <input name="alcohol" type="number" step="any" required>
+                        <span class="hint">Alcohol percentage</span>
+                    </label>
+                </div>
+
+                <div class="actions">
+                    <span class="actions-note">The saved model artifact is loaded from the training pipeline.</span>
+                    <button type="submit">Predict Quality</button>
+                </div>
+            </form>
+        </section>
     </main>
 </body>
 </html>
-
